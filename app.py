@@ -14,7 +14,7 @@ DB_PATH = BASE_DIR / 'orders.db'
 ALLOWED_EXT = {'png', 'jpg', 'jpeg'}
 
 # Telegram bot config - set BOT_TOKEN in environment for real sending
-BOT_TOKEN = os.environ.get("8983851121:AAF5xEWTgf204EsrFk1bZoLKnxdsQPHCkhY" )
+BOT_TOKEN = os.environ.get("BOT_TOKEN")
 ADMIN_CHAT_ID = os.environ.get('ADMIN_CHAT_ID', '8292923975')
 
 if not UPLOAD_FOLDER.exists():
