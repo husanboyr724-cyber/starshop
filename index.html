@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Stars Market — Telegram Yulduzlari</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="" crossorigin="anonymous" />
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo">
+          <i class="fa-solid fa-star"></i>
+        </div>
+        <div class="title">Stars Market</div>
+      </div>
+      <nav class="nav">
+        <button data-target="home" class="nav-btn active" title="Bosh sahifa"><i class="fa-solid fa-house"></i></button>
+        <button data-target="purchase" class="nav-btn" title="Yulduz paketlari"><i class="fa-solid fa-coins"></i></button>
+        <button data-target="order" class="nav-btn" title="Buyurtma berish"><i class="fa-solid fa-file-circle-plus"></i></button>
+        <button data-target="profile" class="nav-btn" title="Profil"><i class="fa-solid fa-user"></i></button>
+        <button data-target="admin" class="nav-btn" title="Admin"><i class="fa-solid fa-chart-line"></i></button>
+      </nav>
+    </header>
+
+    <main class="content">
+      <!-- Home -->
+      <section id="home" class="page active">
+        <div class="hero glass">
+          <div class="hero-left">
+            <div class="big-logo">
+              <!-- Animated Telegram Stars logo -->
+              <div class="star-wrap">
+                <i class="fa-solid fa-star"></i>
+                <div class="glow"></div>
+              </div>
+            </div>
+            <h1>Stars Market — Faqat Telegram Yulduzlari</h1>
+            <p class="lead">Rasmiy Telegram Yulduzlarini darhol sotib oling. Tez yetkazish va ishonchli xizmat.</p>
+            <div class="hero-badges">
+              <span class="badge fast">Tez yetkazish</span>
+              <span class="badge trusted">Ishonchli xizmat</span>
+              <span class="badge premium">Rasmiy yulduzlar</span>
+            </div>
+            <div class="hero-actions">
+              <button class="btn primary" data-target="purchase">Yulduz sotib olish</button>
+              <button class="btn outline" data-target="profile">Mening profilim</button>
+            </div>
+          </div>
+          <div class="hero-right">
+            <div class="profile-card glass">
+              <div class="profile-top">
+                <img src="https://i.pravatar.cc/80?u=stars" alt="avatar" />
+                <div>
+                  <div class="username" id="profileName">@guest</div>
+                  <div class="balance"><i class="fa-solid fa-star"></i> <span id="profileBalance">0</span> yulduz</div>
+                </div>
+              </div>
+              <div class="profile-stats">
+                <div><strong>Refferallar</strong><span id="profileRefs">0</span></div>
+                <div><strong>Buyurtmalar</strong><span id="profileOrders">0</span></div>
+                <div><strong>Status</strong><span id="adminStatus">Admin offline</span></div>
+              </div>
+            </div>
+
+            <div class="referral glass">
+              <div class="ref-head">Sizning referal kodingiz</div>
+              <div class="ref-body">
+                Do'stlaringizni taklif qiling va bonus oling.
+                <div class="ref-code">
+                  <span id="refCode">STAR-XXXX</span>
+                  <button id="copyRef" class="btn small">Nusxa</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="admin-online glass">
+              <i class="fa-solid fa-circle" id="adminDot"></i>
+              <span id="adminText">Admin: @Ravshanbekov888</span>
+              <a class="btn small" href="https://t.me/Ravshanbekov888" target="_blank">Qo'llab-quvvatlash</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Purchase -->
+      <section id="purchase" class="page">
+        <div class="page-header">
+          <h2>Yulduz paketlari</h2>
+          <p>O'zingizga mos paketni tanlang.</p>
+        </div>
+        <div class="payment-card glass" style="margin-bottom:12px;display:flex;justify-content:space-between;align-items:center">
+          <div class="card-visual" style="min-width:260px">
+            <div style="font-size:13px;color:rgba(6,6,10,0.75);">To'lov uchun karta</div>
+            <div class="card-number" id="cardNumberDisplayPurchase">8800 4062 6028 5884</div>
+            <div class="card-meta">Uzcard • Humo • Visa</div>
+          </div>
+          <div class="card-actions">
+            <button type="button" id="copyCardPurchase" class="btn small">Kartani nusxalash</button>
+            <button type="button" class="btn outline" data-target="order">Buyurtma berish</button>
+          </div>
+        </div>
+        <div id="packages" class="grid packages"></div>
+      </section>
+
+      <!-- Profile -->
+      <section id="profile" class="page">
+        <div class="page-header">
+          <h2>Profil</h2>
+          <p>Hisobingiz va buyurtma tarixi.</p>
+        </div>
+        <div class="profile-panel glass">
+          <div class="profile-main">
+            <div class="profile-info">
+              <img src="https://i.pravatar.cc/100?u=starsprofile" alt="avatar" />
+              <div>
+                <div style="display:flex;gap:8px;align-items:center"><h3 id="pfName">@guest</h3><button id="editName" class="btn small outline">Tahrirlash</button></div>
+                <div class="muted">Referral: <span id="pfRef">STAR-XXXX</span> <button id="copyRef2" class="btn small">Nusxa</button></div>
+              </div>
+            </div>
+            <div class="profile-stats-large">
+              <div><strong id="pfOrdersCount">0</strong><div class="muted">Orders</div></div>
+              <div><strong id="pfTotalSpent">0 UZS</strong><div class="muted">Total Spent</div></div>
+              <div><strong id="pfStars">0</strong><div class="muted">Stars</div></div>
+              <div><strong id="pfCurrentStatus"></strong><div class="muted">Current status</div></div>
+            </div>
+          </div>
+
+            <div class="profile-orders">
+            <h4>Buyurtmalar tarixi</h4>
+            <div id="pfOrdersList"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Order -->
+      <section id="order" class="page">
+        <div class="page-header">
+          <h2>Buyurtma berish</h2>
+          <p>Buyurtmani yakunlash uchun ma'lumotlarni to'ldiring.</p>
+        </div>
+        <form id="orderForm" class="order-form glass">
+          <label>Telegram foydalanuvchi nomi
+            <input type="text" id="tgUser" placeholder="@foydalanuvchi" required>
+          </label>
+
+          <label>Paket
+            <select id="pkgSelect" required>
+              <option value="">Paketni tanlang</option>
+            </select>
+          </label>
+
+          <label>To'lov usuli
+            <select id="payMethod" required>
+              <option value="">To'lov usulini tanlang</option>
+              <option value="uzcard">Uzcard</option>
+              <option value="humo">Humo</option>
+              <option value="visa">Visa</option>
+              <option value="mc">Mastercard</option>
+              <option value="rub">RUB karta</option>
+            </select>
+          </label>
+          <label>Chek rasmini yuklash (JPG, PNG, JPEG) — majburiy
+            <input type="file" id="payScreenshot" accept=".png,.jpg,.jpeg,image/*" required aria-label="Payment screenshot" />
+          </label>
+
+          <div id="uploadPreview" class="upload-preview"></div>
+
+          <div class="payment-card glass">
+            <div class="card-visual">
+              <div class="card-chip"></div>
+              <div class="card-number" id="cardNumberDisplay">8800 4062 6028 5884</div>
+              <div class="card-meta">To'lov kartasi</div>
+              <div class="card-brand-list">Uzcard • Humo • Visa • Mastercard • RUB kartalar</div>
+            </div>
+            <div class="card-actions">
+              <button type="button" id="copyCard" class="btn small">Kartani nusxalash</button>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn primary">Buyurtmani yuborish</button>
+            <button type="button" id="clearOrder" class="btn outline">Tozalash</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Donation -->
+      <section id="donation" class="page">
+        <div class="page-header">
+          <h2>Hissa yuborish</h2>
+          <p>Adminga to'g'ridan-to'g'ri hissa yuboring.</p>
+        </div>
+        <form id="donationForm" class="order-form glass">
+          <label>Hissa miqdori (UZS)
+            <input type="number" id="donAmount" placeholder="10000" required>
+          </label>
+          <label>Telegram foydalanuvchi nomi
+            <input type="text" id="donUser" placeholder="@foydalanuvchi">
+          </label>
+          <label>Xabar (admin uchun)
+            <input type="text" id="donMessage" placeholder="Assalomu alaykum...">
+          </label>
+          <label>To'lov usuli
+            <select id="donPayMethod" required>
+              <option value="">To'lov usulini tanlang</option>
+              <option value="uzcard">Uzcard</option>
+              <option value="humo">Humo</option>
+              <option value="visa">Visa</option>
+              <option value="mc">Mastercard</option>
+              <option value="rub">RUB karta</option>
+            </select>
+          </label>
+          <label>Skrinshotni yuklash
+            <input type="file" id="donScreenshot" accept="image/*">
+          </label>
+          <div class="muted">To'lov kartasi: <strong>YOUR_CARD_NUMBER</strong></div>
+          <div class="form-actions">
+            <button type="submit" class="btn primary">Hissa yuborish</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Admin -->
+      <section id="admin" class="page">
+        <div class="page-header admin-header">
+          <div>
+            <h2>Admin boshqaruvi</h2>
+            <p>Buyurtmalarni boshqarish va statistikani ko'rish.</p>
+          </div>
+          <div class="admin-controls">
+            <input id="searchOrders" placeholder="Foydalanuvchi yoki ID bo'yicha qidirish" />
+          </div>
+        </div>
+
+        <div class="stats grid stats-grid">
+            <div class="stat-card glass">
+              <div>Umumiy savdo</div>
+              <div id="statSales">0 UZS</div>
+            </div>
+            <div class="stat-card glass">
+              <div>Foydalanuvchilar</div>
+              <div id="statUsers">0</div>
+            </div>
+            <div class="stat-card glass">
+              <div>Kutilayotgan buyurtmalar</div>
+              <div id="statPending">0</div>
+            </div>
+        </div>
+
+        <div class="orders-grid">
+          <div>
+            <h4>Pending Orders</h4>
+            <div id="pendingList" class="orders-list"></div>
+          </div>
+          <div>
+            <h4>Approved Orders</h4>
+            <div id="approvedList" class="orders-list"></div>
+          </div>
+          <div>
+            <h4>Rejected Orders</h4>
+            <div id="rejectedList" class="orders-list"></div>
+          </div>
+        </div>
+        <h3>Donatsiyalar</h3>
+        <div class="orders-grid">
+          <div>
+            <h4>Yangi donatsiyalar</h4>
+            <div id="pendingDonList" class="orders-list"></div>
+          </div>
+          <div>
+            <h4>Tasdiqlangan donatsiyalar</h4>
+            <div id="approvedDonList" class="orders-list"></div>
+          </div>
+          <div>
+            <h4>Rad etilgan donatsiyalar</h4>
+            <div id="rejectedDonList" class="orders-list"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div>© <span id="year"></span> Stars Market — Aloqa: <a href="https://t.me/Ravshanbekov888" target="_blank">@Ravshanbekov888</a></div>
+      <div>To'lov usullari: Uzcard • Humo • Visa • Mastercard • RUB kartalar</div>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
