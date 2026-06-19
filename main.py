@@ -1,14 +1,17 @@
 import logging
 import sys
 import time
-from config import BOT_TOKEN, LOG_DIR, DATA_DIR, BACKUP_DIR, IMAGES_DIR, ADMIN_ID
-from utils import ensure_dirs, install_requirements
-from flask import Flask
+import os
 import threading
+from flask import Flask
+
+import telebot
+
+from config import BOT_TOKEN, LOG_DIR, DATA_DIR, BACKUP_DIR, IMAGES_DIR, ADMIN_ID
+from utils import ensure_dirs
 from database import Database
 from keyboards import Keyboards
 from handlers import register_handlers
-import telebot
 
 
 def setup_logging():
@@ -23,63 +26,55 @@ def setup_logging():
     )
 
 
+def run_web():
+    app = Flask(__name__)
+
+    @app.route("/")
+    def index():
+        return "OK"
+
+    port = int(os.getenv("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
+
+
 def main():
-    # optionally install requirements (kept for local use)
-    print("Checking and installing requirements (if needed)...")
-    ok, out = install_requirements("requirements.txt")
-    if not ok:
-        print("Failed to install requirements:\n", out)
-    else:
-        print(out)
+    print("Starting bot...")
 
     setup_logging()
+
     ensure_dirs(DATA_DIR, IMAGES_DIR, BACKUP_DIR, LOG_DIR)
 
-    logging.info("Starting StarsShop bot")
+    logging.info("Bot is starting")
 
     db = Database()
     kb = Keyboards()
 
-    # ensure admin id from environment is stored in DB settings
+    # admin id save
     try:
         if ADMIN_ID:
-            db.set_setting('admin_id', str(ADMIN_ID))
-            logging.info("Admin ID set from environment: %s", ADMIN_ID)
+            db.set_setting("admin_id", str(ADMIN_ID))
     except Exception:
-        logging.exception("Failed to set ADMIN_ID from environment")
+        logging.exception("Admin ID error")
 
-    # start a minimal web server for Render health checks
-    app = Flask(__name__)
+    # start flask (Render health check)
+    threading.Thread(target=run_web, daemon=True).start()
 
-    @app.route('/')
-    def index():
-        return 'OK'
-
-    def run_web():
-        import os
-        port = int(os.getenv('PORT', '5000'))
-        app.run(host='0.0.0.0', port=port)
-
-    t = threading.Thread(target=run_web, daemon=True)
-    t.start()
-
+    # bot init
     try:
         bot = telebot.TeleBot(BOT_TOKEN, parse_mode="HTML")
     except Exception as e:
-        logging.exception("Failed to create bot instance: %s", e)
-        raise
+        logging.exception("Bot init error: %s", e)
+        return
 
     register_handlers(bot, db, kb)
 
-    logging.info("Database connected")
-    print("Bot started successfully")
-    print("Database connected")
-    print("Waiting for users...")
+    print("Bot started ✔")
+    logging.info("Bot started successfully")
 
-    # resilient polling loop
+    # polling loop (stable)
     while True:
         try:
-            bot.infinity_polling(timeout=60, long_polling_timeout=5)
+            bot.infinity_polling(timeout=60, long_polling_timeout=10)
         except Exception as e:
             logging.exception("Polling crashed: %s", e)
             time.sleep(5)
